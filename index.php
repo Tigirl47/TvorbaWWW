@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-if (isset($_SESSION["user_id"])) {
+include "mysql/db.php";
+Connection();
 
-    include "mysql/db.php";
-    Connection();
+if (isset($_SESSION["user_id"])) {
 
     $sql = "SELECT * FROM users
             WHERE id = {$_SESSION["user_id"]}";
