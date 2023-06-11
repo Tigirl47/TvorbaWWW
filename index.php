@@ -90,7 +90,7 @@ if (isset($_SESSION["user_id"])) {
                                 <?php echo $dog_description ?>
                             </td>
                             <td>
-                                <?php echo "Majitel" ?>
+                                <?php echo isset($user) ? htmlspecialchars($user["fullname"]) : "Majitel"; ?>
                             </td>
                         </tr>
                         <?php

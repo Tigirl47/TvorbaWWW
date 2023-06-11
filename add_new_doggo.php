@@ -98,7 +98,7 @@ if (isset($_POST["add_dog"])) {
         </tr>
         <tr>
           <td>Description:</td>
-          <td><textarea name="dog_description" placeholder="Description"></textarea></td>
+          <td><textarea name="dog_description" placeholder="Description (Optional)"></textarea></td>
         </tr>
         <tr>
           <td><input type="submit" name="add_dog" Value="Add Doggo"></td>
