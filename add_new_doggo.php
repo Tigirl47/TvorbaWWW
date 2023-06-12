@@ -18,7 +18,7 @@ if (isset($_POST["add_dog"])) {
   $dog_description = $_POST["dog_description"];
 
   // Připojení k databázi
-  include "mysql/db.php";
+  include "db.php";
   Connection();
 
   // Přiřazení údajů do kolonek databáze

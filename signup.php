@@ -8,7 +8,7 @@
 <?php
 
 // připojení do databáze
-include "mysql/db.php";
+include "db.php";
 Connection();
 if (isset($_POST["submit"])) {
   AddFun();

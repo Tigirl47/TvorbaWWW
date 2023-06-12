@@ -67,7 +67,7 @@ session_start();
 
       <?php
       // Připojení k databázi
-      include "mysql/db.php";
+      include "db.php";
       Connection();
       // Zobrazení dat z databáze
       if (isset($_SESSION["user_id"])) {

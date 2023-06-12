@@ -5,7 +5,7 @@ $is_invalid = false;
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   // Připojení do databáze
-  include "mysql/db.php";
+  include "db.php";
   Connection();
 
   // Kontrola, jestli je username v databázi

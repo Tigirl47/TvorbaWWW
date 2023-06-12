@@ -1,5 +1,5 @@
 <?php
-include "mysql/db.php";
+include "db.php";
 Connection();
 
 $query = "SELECT fullname FROM users";

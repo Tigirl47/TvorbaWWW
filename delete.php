@@ -6,7 +6,7 @@ if (isset($_GET["dog_id"])) {
   $dog_id = $_GET["dog_id"];
 
   // Připojení k databázi
-  include "mysql/db.php";
+  include "db.php";
   Connection();
 
   // Výběr dat z databáze na odstranění a exekuce

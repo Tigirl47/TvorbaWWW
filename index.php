@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include "mysql/db.php";
+include "db.php";
 Connection();
 
 if (isset($_SESSION["user_id"])) {
