@@ -1,5 +1,10 @@
 <?php
 session_start();
+if (isset($_SESSION["user_id"])) {
+  $owner_id = $_SESSION["user_id"];
+  echo "Jooooooo";
+}
+
 ?>
 
 <?php
@@ -17,8 +22,8 @@ if (isset($_POST["add_dog"])) {
   Connection();
 
   // Přiřazení údajů do kolonek databáze
-  $query = "INSERT INTO dogs(dog_name, dog_breed, dog_age, dog_origin, dog_description) 
-          VALUES ('$dog_name', '$dog_breed', '$dog_age', '$dog_origin', '$dog_description')";
+  $query = "INSERT INTO dogs (dog_name, dog_breed, dog_age, dog_origin, dog_description, dog_owner_id) 
+          VALUES ('$dog_name', '$dog_breed', '$dog_age', '$dog_origin', '$dog_description', '$owner_id')";
 
   $result = mysqli_query($connection, $query);
 
@@ -50,7 +55,7 @@ if (isset($_POST["add_dog"])) {
   <div class="menu">
     <a href="index.php">Home</a>
 
-    <a href="#">List of Owners</a>
+    <a href="owners.php">List of Owners</a>
     <a href="my_doggos.php">My Doggos</a>
   </div>
   <!-- Menu ends here -->

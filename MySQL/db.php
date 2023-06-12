@@ -6,7 +6,7 @@ function Connection()
   $connection = mysqli_connect("localhost", "root", "", "loginapplication");
 
   if (!$connection) {
-    die("Something went wrong...");
+    die("Something went wrong1...");
   }
 }
 
@@ -76,7 +76,7 @@ function AddFun()
     mysqli_stmt_execute($stmt);
     header('Location:signup_success.php');
   } else {
-    die("Something went wrong...");
+    die("Something went wrong2...");
   }
 }
 ?>

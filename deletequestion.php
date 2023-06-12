@@ -58,7 +58,7 @@ if (isset($_POST["go_back"])) {
 
 <body>
 
-  <h1>Delete Doggo</h1>
+  <h3>Delete Doggo</h3>
   <p>Do You Really Want to Delete Doggo "
     <?php echo $dog_name; ?>"?
   </p>

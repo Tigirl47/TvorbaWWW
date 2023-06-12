@@ -40,7 +40,6 @@ if (isset($_POST["update"])) {
   $dog_age = $_POST["dog_age"];
   $dog_origin = $_POST["dog_origin"];
   $dog_description = $_POST["dog_description"];
-
   // Připojení do databáze
   Connection();
 
@@ -57,9 +56,8 @@ if (isset($_POST["update"])) {
     $_SESSION["update_fail"] = "Failed to Update Doggo.";
     header('Location:update_doggo.php?dog_id=$dog_id');
   }
-} else {
-  echo "Something Went Wrong...";
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -79,7 +77,7 @@ if (isset($_POST["update"])) {
   <div class="menu">
     <a href="index.php">Home</a>
 
-    <a href="#">List of Owners</a>
+    <a href="owners.php">List of Owners</a>
     <a href="my_doggos.php">My Doggos</a>
   </div>
   <!-- Menu ends here -->

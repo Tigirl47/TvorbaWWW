@@ -19,11 +19,11 @@ session_start();
   <div class="menu">
     <a href="index.php">Home</a>
 
-    <a href="#">List of Owners</a>
+    <a href="owners.php">List of Owners</a>
     <a href="my_doggos.php">My Doggos</a>
   </div>
   <!-- Menu ends here -->
-  <h3>My Doggies</h3>
+  <h3>My Doggos</h3>
 
   <p>
     <?php
@@ -54,7 +54,7 @@ session_start();
   </p>
   <!-- Table with my dogs starts here -->
   <div class="my_dog_table">
-    <a href="add_new_doggo.php">Add New Doggie</a>
+    <a href="add_new_doggo.php">Add New Doggo</a>
     <table>
       <tr>
         <th>Name</th>
@@ -70,50 +70,54 @@ session_start();
       include "mysql/db.php";
       Connection();
       // Zobrazení dat z databáze
-      $query = "SELECT * FROM dogs";
-      $result = mysqli_query($connection, $query);
+      if (isset($_SESSION["user_id"])) {
+        $user_id = $_SESSION["user_id"];
+        $query = "SELECT * FROM dogs WHERE dog_owner_id = '$user_id'";
+        $result = mysqli_query($connection, $query);
 
-      if ($result == true) {
-        $count_rows = mysqli_num_rows($result);
-        if ($count_rows > 0) {
+        if ($result == true) {
+          $count_rows = mysqli_num_rows($result);
+          if ($count_rows > 0) {
 
-          while ($row = mysqli_fetch_assoc($result)) {
-            $dog_name = $row["dog_name"];
-            $dog_breed = $row["dog_breed"];
-            $dog_age = $row["dog_age"];
-            $dog_origin = $row["dog_origin"];
-            $dog_description = $row["dog_description"];
-            $dog_id = $row["dog_id"];
+            while ($row = mysqli_fetch_assoc($result)) {
+              $dog_name = $row["dog_name"];
+              $dog_breed = $row["dog_breed"];
+              $dog_age = $row["dog_age"];
+              $dog_origin = $row["dog_origin"];
+              $dog_description = $row["dog_description"];
+              $dog_id = $row["dog_id"];
+
+              ?>
+              <tr>
+                <td>
+                  <?php echo $dog_name ?>
+                </td>
+                <td>
+                  <?php echo $dog_breed ?>
+                </td>
+                <td>
+                  <?php echo $dog_age ?>
+                </td>
+                <td>
+                  <?php echo $dog_origin ?>
+                </td>
+                <td>
+                  <?php echo $dog_description ?>
+                </td>
+                <td>
+                  <a href="update.php?dog_id=<?php echo $dog_id; ?>">Update</a>
+                  <a href="deletequestion.php?dog_id=<?php echo $dog_id; ?>">Delete</a>
+                </td>
+              </tr>
+              <?php
+            }
+          } else {
             ?>
             <tr>
-              <td>
-                <?php echo $dog_name ?>
-              </td>
-              <td>
-                <?php echo $dog_breed ?>
-              </td>
-              <td>
-                <?php echo $dog_age ?>
-              </td>
-              <td>
-                <?php echo $dog_origin ?>
-              </td>
-              <td>
-                <?php echo $dog_description ?>
-              </td>
-              <td>
-                <a href="update.php?dog_id=<?php echo $dog_id; ?>">Update</a>
-                <a href="deletequestion.php?dog_id=<?php echo $dog_id; ?>">Delete</a>
-              </td>
+              <td colspan="3">No Doggo Added Yet.</td>
             </tr>
             <?php
           }
-        } else {
-          ?>
-          <tr>
-            <td colspan="3">No Doggo Added Yet.</td>
-          </tr>
-          <?php
         }
       }
       ?>

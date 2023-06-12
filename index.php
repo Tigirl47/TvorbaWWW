@@ -26,22 +26,22 @@ if (isset($_SESSION["user_id"])) {
 <body>
 
     <h1>Doggos Association</h1>
-    <!-- Menu for user starts here-->
-    <?php if (isset($user)): ?>
-        <p>Hello
-            <?= htmlspecialchars($user["fullname"]) ?>
-        </p>
-        <p><a href="logout.php">Log out</a></p>
-        <p><a href="my_doggos.php">My Doggos</a></p>
-    <?php else: ?>
-        <p><a href="login.php">Log in</a> or <a href="signup.php">sign up</a></p>
-    <?php endif; ?>
-    <!-- Menu for user ends here -->
 
     <!-- Menu starts here -->
     <div class="menu">
         <a href="index.php">Home</a>
-        <a href="#">List of Owners</a>
+        <a href="owners.php">List of Owners</a>
+        <!-- Menu for user starts here-->
+        <?php if (isset($user)): ?>
+            <a href="my_doggos.php">My Doggos</a>
+            <a href="logout.php">Log out</a>
+            <p>Hello
+                <?= htmlspecialchars($user["fullname"]) ?>!
+            </p>
+        <?php else: ?>
+            <a href="login.php">Log in</a> <a href="signup.php">Sign up</a>
+        <?php endif; ?>
+        <!-- Menu for user ends here -->
     </div>
     <!-- Menu ends here -->
 
@@ -54,24 +54,25 @@ if (isset($_SESSION["user_id"])) {
                 <th>Age</th>
                 <th>Origin</th>
                 <th>Description</th>
-                <th>Owners (ID)</th>
+                <th>Owner</th>
             </tr>
             <?php
             // Zobrazení dat z databáze psů
-            $query = "SELECT * FROM dogs";
+            $query = "SELECT dogs.*, users.fullname AS owner_name
+          FROM dogs
+          LEFT JOIN users ON dogs.dog_owner_id = users.id";
             $result = mysqli_query($connection, $query);
 
             if ($result == true) {
                 $count_rows = mysqli_num_rows($result);
                 if ($count_rows > 0) {
-
                     while ($row = mysqli_fetch_assoc($result)) {
                         $dog_name = $row["dog_name"];
                         $dog_breed = $row["dog_breed"];
                         $dog_age = $row["dog_age"];
                         $dog_origin = $row["dog_origin"];
                         $dog_description = $row["dog_description"];
-                        $dog_id = $row["dog_id"];
+                        $dog_owner = $row["owner_name"];
                         ?>
                         <tr>
                             <td>
@@ -90,7 +91,7 @@ if (isset($_SESSION["user_id"])) {
                                 <?php echo $dog_description ?>
                             </td>
                             <td>
-                                <?php echo isset($user) ? htmlspecialchars($user["fullname"]) : "Majitel"; ?>
+                                <?php echo $dog_owner ?>
                             </td>
                         </tr>
                         <?php
