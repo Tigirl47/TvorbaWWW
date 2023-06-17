@@ -20,7 +20,7 @@ if (isset($_SESSION["user_id"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://classless.de/classless.css">
-    <title>Doggos Association Homepage</title>
+    <title>Doggos Association - Homepage</title>
 </head>
 
 <body>
@@ -44,6 +44,8 @@ if (isset($_SESSION["user_id"])) {
         <!-- Menu for user ends here -->
     </div>
     <!-- Menu ends here -->
+
+    <h3>List of Doggos</h3>
 
     <!-- Table starts here -->
     <div class="dog_table">

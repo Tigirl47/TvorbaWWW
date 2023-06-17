@@ -44,7 +44,7 @@ if (isset($_POST["add_dog"])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://classless.de/classless.css">
-  <title>Doggos Association - My Doggos</title>
+  <title>Doggos Association - Add a New Doggo</title>
 </head>
 
 <body>

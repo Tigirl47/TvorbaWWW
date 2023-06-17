@@ -1,0 +1,13 @@
+{
+  "folders": [
+	{
+		"name": "WWW",
+		"path": "../../../../xampp/htdocs/WWW"
+	},
+	{
+		"name": "php",
+		"path": "."
+	}
+],
+  "settings": {}
+}

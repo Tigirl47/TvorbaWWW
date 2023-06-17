@@ -3,11 +3,13 @@
 function Connection()
 {
   global $connection;
+  //$connection = mysqli_connect("sql5.webzdarma.cz", "doggoskunovj9512", "	.p7fT5y2C2iuyY2", "doggoskunovj9512");
   $connection = mysqli_connect("localhost", "root", "", "loginapplication");
 
   if (!$connection) {
     die("Something went wrong (1)...");
   }
+
 }
 
 // Přidání dat do databáze
