@@ -7,9 +7,9 @@ function Connection()
   $connection = mysqli_connect("localhost", "root", "", "loginapplication");
 
   if (!$connection) {
-    die("Something went wrong (1)...");
+    die("Something Went Wrong (1)...");
   }
-
+  return $connection;
 }
 
 // Přidání dat do databáze
@@ -20,23 +20,23 @@ function AddFun()
   $username = $_POST["username"];
   $password = $_POST["password"];
   $passwordRepeat = $_POST["repeat_password"];
-  //$errors = array();
+
   // Kontrola polí, jestli jsou vyplněné
   if (empty($fullname) or empty($username) or empty($password) or empty($passwordRepeat)) {
     //array_push($errors, "All fields are required");
-    echo "All fields are required.";
+    echo "All Fields Are Required.";
     return;
   }
   // Kontrola hesla, jestli je delší jak 6 znaků
   if (strlen($password) < 6) {
     //array_push($errors, "Password must be at least 6 characters long");
-    echo "Password must be at least 6 characters long.";
+    echo "Password Must Be at Least 6 Characters Long.";
     return;
   }
   // Kontrola správně napsaného druhého hesla
   if ($password !== $passwordRepeat) {
     //array_push($errors, "Password does not match");
-    echo "Password does not match.";
+    echo "Password Does Not Match.";
     return;
   }
   //Kontrola username, jestli už náhodou není v databázi
@@ -46,17 +46,10 @@ function AddFun()
     mysqli_stmt_store_result($stmt);
 
     if (mysqli_stmt_num_rows($stmt) > 0) {
-      echo "Username already exists. Try again.";
+      echo "Username Already Exists. Try Again.";
       return;
     }
   }
-  //Výpis errorů
-  /*if (count($errors) > 0) {
-    foreach ($errors as $error) {
-      echo "<div class='alert alert-danger'>$error</div>";
-    }
-    return;
-  } else*/
 
   // Escapování inputů (proti sql injection)
   $fullname = mysqli_real_escape_string($connection, $fullname);
@@ -76,9 +69,9 @@ function AddFun()
   if ($prepareStmt) {
     mysqli_stmt_bind_param($stmt, "sss", $fullname, $username, $passwordHash);
     mysqli_stmt_execute($stmt);
-    header('Location:signup_success.php');
+    header('Location: index.php?sid=signup-success');
   } else {
-    die("Something went wrong (2)...");
+    die("Something Went Wrong (2)...");
   }
 }
 ?>

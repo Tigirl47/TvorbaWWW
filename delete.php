@@ -18,16 +18,16 @@ if (isset($_GET["dog_id"])) {
   if ($stmt->affected_rows > 0) {
 
     $_SESSION["delete"] = "Doggo Deleted Sucessfully.";
-    header("Location: my_doggos.php");
+    header("Location: index.php?sid=my-doggos");
 
   } else {
 
     $_SESSION["delete_fail"] = "Failed to Delete Doggo.";
-    header("Location: my_doggos.php");
+    header("Location: index.php?sid=my-doggos");
 
   }
 
 } else {
-  header("Location: my_doggos.php");
+  header("Location: index.php?sid=my-doggos");
 }
 ?>

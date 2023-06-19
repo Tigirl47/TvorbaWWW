@@ -1,0 +1,290 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Stylování headeru */
+.header {
+  background-color: #f1f1f1;
+  padding: 30px;
+  text-align: center;
+  font-size: 25px;
+  padding-right: 13%;
+  padding-left: 11%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+/* Stylování loga */
+.header-img {
+  margin-right: 10px;
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+}
+
+.header h1 {
+  flex-grow: 1;
+  text-align: right;
+}
+
+/* Stylování body */
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Stylování navigační lišty */
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+  padding-left: 250px;
+  padding-right: 250px;
+}
+
+/* Stylování topnav odkazů */
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.logged {
+  float: right;
+  color: #f2f2f2;
+  background-color: transparent;
+}
+
+/* Stylování obsahu */
+.content {
+  background-color: #ddd;
+  padding: 10px;
+  padding-left: 250px;
+  padding-right: 250px;
+  padding-bottom: 10px;
+  overflow: auto;
+}
+
+/* Stylování stránky "owners" */
+.owner-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.owner-list-item {
+  margin-bottom: 5px;
+}
+
+.owner-list-item a {
+  display: block;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #333;
+  transition: background-color 0.3s;
+}
+
+.owner-list-item a:hover {
+  background-color: #f2f2f2;
+}
+
+/* Stylování odkazů na styl tlačítka */
+.button-link {
+  display: inline-block;
+  padding: 5px 15px;
+  background-color: #4caf50;
+  border-radius: 4px;
+  text-decoration: none;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.button-link:hover {
+  background-color: #45a049;
+}
+
+/* Stylování formulářových tlačítek */
+.button-input {
+  display: inline-block;
+  padding: 5px 15px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.button-input:hover {
+  background-color: #45a049;
+}
+
+/* Stylování tabulky */
+.table {
+  width: 100%;
+  padding-left: 250px;
+  padding-right: 250px;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Stylování formulářové tabulky */
+.form-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.form-table td {
+  padding: 10px;
+}
+
+.form-table input[type="text"],
+.form-table textarea,
+.form-table select {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-table select {
+  height: 30px;
+}
+
+.form-table input[type="submit"],
+.form-table input[type="reset"] {
+  display: inline-block;
+  padding: 5px 15px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.form-table input[type="submit"]:hover,
+.form-table input[type="reset"]:hover {
+  background-color: #45a049;
+}
+
+.form-table td {
+  padding: 10px 5px 10px 0;
+}
+
+/* Stylování formuláře u "signup" */
+.form-input {
+  margin-bottom: 10px;
+}
+
+.form-input input[type="text"],
+.form-input input[type="password"] {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-input input[type="submit"] {
+  display: inline-block;
+  padding: 6px 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.form-input input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+/* Stylování formuláře u "login" */
+.login-form-input {
+  margin-bottom: 10px;
+}
+
+.login-form-input input[type="text"],
+.login-form-input input[type="password"] {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.login-form-input input[type="submit"] {
+  display: inline-block;
+  padding: 6px 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-form-input input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+/* Stylování footeru */
+.footer {
+  background-color: #f1f1f1;
+  padding: 10px;
+  text-align: center;
+  font-size: 15px;
+}
+
+/* Media query pro zmenšování prvků na menších obrazovkách */
+@media (max-width: 768px) {
+  .header {
+    padding: 15px;
+  }
+
+  .topnav {
+    padding: 15px;
+  }
+
+  .content {
+    padding: 15px;
+  }
+
+  .table {
+    padding: 15px;
+  }
+
+  .form-table {
+    padding: 15px;
+  }
+}

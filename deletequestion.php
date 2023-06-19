@@ -1,10 +1,7 @@
 <?php
-session_start();
-
 if (isset($_SESSION["user_id"])) {
 
-  include "db.php";
-  Connection();
+  $connection = Connection();
 
   $sql = "SELECT * FROM users
             WHERE id = {$_SESSION["user_id"]}";
@@ -18,7 +15,7 @@ if (isset($_GET["dog_id"])) {
 }
 
 // Připojení k databázi
-Connection();
+$connection = Connection();
 
 // Výběr dat z databáze na odstranění a exekuce
 $query = "SELECT * FROM dogs WHERE dog_id=?";
@@ -34,7 +31,7 @@ if ($result->num_rows > 0) {
 } else {
   // Pes s daným ID neexistuje v databázi
   $_SESSION["delete_fail2"] = "Something Went Wrong... Please Try Again.";
-  header("Location: my_doggos.php");
+  header("Location: index.php?sid=my-doggos");
   exit;
 }
 
@@ -43,30 +40,15 @@ if (isset($_POST["delete"])) {
   header("Location: delete.php?dog_id=" . $dog_id);
 }
 if (isset($_POST["go_back"])) {
-  header("Location: my_doggos.php");
+  header("Location: index.php?sid=my-doggos");
 }
 
 ?>
-<!DOCTYPE html>
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://classless.de/classless.css">
-  <title>Doggos Association - Delete</title>
-</head>
-
-<body>
-
-  <h3>Delete Doggo</h3>
-  <p>Do You Really Want to Delete Doggo "
-    <?php echo $dog_name; ?>"?
-  </p>
-  <form action="" method="post">
-    <input type="submit" name="delete" value="Delete">
-    <input type="submit" name="go_back" value="Go Back">
-  </form>
-
-</body>
-
-</html>
+<h3>Delete Doggo</h3>
+<p>Do You Really Want to Delete Doggo "
+  <?php echo $dog_name; ?>"?
+</p>
+<form action="" method="post">
+  <input class="button-input" type="submit" name="delete" value="Delete">
+  <input class="button-input" type="submit" name="go_back" value="Go Back">
+</form>

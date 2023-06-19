@@ -1,12 +1,10 @@
 <?php
-
 $is_invalid = false;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   // Připojení do databáze
-  include "db.php";
-  Connection();
+  $connection = Connection();
 
   // Kontrola, jestli je username v databázi
   $sql = sprintf(
@@ -16,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   $result = $connection->query($sql);
   $user = $result->fetch_assoc();
+
   // Kontrola, jestli je heslo přiřazené k username
   if ($user) {
 
@@ -29,42 +28,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       exit;
     }
   }
-
   $is_invalid = true;
-
 }
 ?>
-<!DOCTYPE html>
-<html>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://classless.de/classless.css">
-  <title>Login</title>
-</head>
+<h2>Login</h2>
 
-<body>
+<?php if ($is_invalid): ?>
+  <em>Invalid Login</em>
+<?php endif; ?>
 
-  <h1>Login</h1>
 
-  <?php if ($is_invalid): ?>
-    <em>Invalid login</em>
-  <?php endif; ?>
-
-  <div>
-    <form action="login.php" method="post">
-      <div>
-        <input type="text" name="username" placeholder="Username">
-      </div>
-      <div>
-        <input type="password" name="password" placeholder="Password">
-      </div>
-      <div>
-        <input type="submit" value="Login" name="login">
-      </div>
-    </form>
+<form action="" method="post">
+  <div class="login-form-input">
+    <input type="text" name="username" placeholder="Username">
   </div>
-</body>
-
-</html>
+  <div class="login-form-input">
+    <input type="password" name="password" placeholder="Password">
+  </div>
+  <div class="login-form-input">
+    <input type="submit" value="Login" name="login">
+  </div>
+</form>
