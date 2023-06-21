@@ -1,58 +1,101 @@
 <?php
-// zachycení id určitého psa
+
+if (isset($_SESSION["user_id"])) {
+
+  $connection = Connection();
+
+  $user_id = $_SESSION["user_id"];
+  $sql = "SELECT id FROM users WHERE id=?";
+  $stmt = $connection->prepare($sql);
+  $stmt->bind_param("i", $user_id);
+  $stmt->execute();
+  $result = $stmt->get_result();
+
+  if ($result->num_rows > 0) {
+    $user = $result->fetch_assoc();
+  } else {
+    // Uživatel s daným ID neexistuje v databázi
+    $_SESSION["delete_fail"] = "Something Went Wrong... Please Try Again. (1)";
+    header("Location: index.php?sid=my-doggos");
+    exit;
+  }
+}
+
+// Zachycení id určitého psa
 if (isset($_GET["dog_id"])) {
   $dog_id = $_GET["dog_id"];
 
   // Připojení k databázi
   $connection = Connection();
 
-  $sql = "SELECT * FROM users
-            WHERE id = {$_SESSION["user_id"]}";
-  $result = $connection->query($sql);
-  $user = $result->fetch_assoc();
-}
+  $sql = "SELECT dog_id FROM dogs WHERE dog_owner_id = ?";
+  $stmt = $connection->prepare($sql);
+  $stmt->bind_param("s", $_SESSION['user_id']);
+  $stmt->execute();
+  $result = $stmt->get_result();
 
-$connection = Connection();
+  // Kontrola, zda je uživatel povolený
+  if ($result->num_rows > 0) {
+    $dogFound = false;
+    while ($row = $result->fetch_assoc()) {
+      if ($row['dog_id'] == $dog_id) {
+        $dogFound = true;
+        break;
+      }
+    }
+    if ($dogFound) {
 
-// Výběr dat z databáze na odstranění a exekuce
-$query = "SELECT * FROM dogs WHERE dog_id=?";
-$stmt = $connection->prepare($query);
-$stmt->bind_param("i", $dog_id);
-$stmt->execute();
-$result = $stmt->get_result();
+      // Připojení k databázi
+      $connection = Connection();
 
-if ($result->num_rows > 0) {
-  $row = $result->fetch_assoc();
-  $dog_name = $row["dog_name"];
-  $dog_breed = $row["dog_breed"];
-  $dog_age = $row["dog_age"];
-  $dog_origin = $row["dog_origin"];
-  $dog_description = $row["dog_description"];
-}
+      // Výběr dat z databáze na odstranění a exekuce
+      $query = "SELECT * FROM dogs WHERE dog_id=?";
+      $stmt = $connection->prepare($query);
+      $stmt->bind_param("i", $dog_id);
+      $stmt->execute();
+      $result = $stmt->get_result();
 
-if (isset($_POST["update"])) {
+      if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $dog_name = $row["dog_name"];
+        $dog_breed = $row["dog_breed"];
+        $dog_age = $row["dog_age"];
+        $dog_origin = $row["dog_origin"];
+        $dog_description = $row["dog_description"];
+      }
 
-  $dog_name = $_POST["dog_name"];
-  $dog_breed = $_POST["dog_breed"];
-  $dog_age = $_POST["dog_age"];
-  $dog_origin = $_POST["dog_origin"];
-  $dog_description = $_POST["dog_description"];
+      if (isset($_POST["update"])) {
 
-  // Připojení do databáze
-  $connection = Connection();
+        $dog_name = mysqli_real_escape_string($connection, $_POST["dog_name"]);
+        $dog_breed = mysqli_real_escape_string($connection, $_POST["dog_breed"]);
+        $dog_age = mysqli_real_escape_string($connection, $_POST["dog_age"]);
+        $dog_origin = mysqli_real_escape_string($connection, $_POST["dog_origin"]);
+        $dog_description = mysqli_real_escape_string($connection, $_POST["dog_description"]);
 
-  // Přiřazení údajů do kolonek databáze
-  $query = "UPDATE dogs SET dog_name='$dog_name', dog_breed='$dog_breed', dog_age='$dog_age',
-   dog_origin='$dog_origin', dog_description='$dog_description' WHERE dog_id='$dog_id'";
-  // Provedení Query
-  $result = mysqli_query($connection, $query);
+        // Připojení do databáze
+        $connection = Connection();
 
-  if ($result == true) {
-    $_SESSION["update"] = "Doggo Updated Successfully.";
-    header("Location: index.php?sid=my-doggos");
+        // Přiřazení údajů do kolonek databáze
+        $query = "UPDATE dogs SET dog_name=?, dog_breed=?, dog_age=?, dog_origin=?, dog_description=? WHERE dog_id=?";
+        $stmt = $connection->prepare($query);
+        $stmt->bind_param("sssssi", $dog_name, $dog_breed, $dog_age, $dog_origin, $dog_description, $dog_id);
+        $stmt->execute();
+
+        if ($stmt->affected_rows > 0) {
+          $_SESSION["update"] = "Doggo Updated Successfully.";
+          header("Location: index.php?sid=my-doggos");
+        } else {
+          $_SESSION["update_fail"] = "Failed to Update Doggo.";
+          header("Location: index.php?sid=update&dog_id=$dog_id");
+        }
+      }
+    } else {
+      $_SESSION["unauthorized_entry"] = "What Are You Trying To Do?";
+      header("Location: index.php?sid=home");
+    }
   } else {
-    $_SESSION["update_fail"] = "Failed to Update Doggo.";
-    header("Location: index.php?sid=update&dog_id=$dog_id");
+    $_SESSION["unauthorized_entry"] = "What Are You Trying To Do?";
+    header("Location: index.php?sid=home");
   }
 }
 ?>
@@ -62,22 +105,23 @@ if (isset($_POST["update"])) {
 <p>
   <?php
   if (isset($_SESSION["update_fail"])) {
-    echo $_SESSION["update_fail"];
+    echo htmlspecialchars($_SESSION["update_fail"]);
     unset($_SESSION["update_fail"]);
   }
   ?>
 </p>
 
-
 <form action="" method="post">
   <table class="form-table">
     <tr>
       <td>Name:</td>
-      <td><input type="text" name="dog_name" value="<?php echo $dog_name ?>" required="required" /></td>
+      <td><input type="text" name="dog_name" value="<?php echo htmlspecialchars($dog_name) ?>" required="required" />
+      </td>
     </tr>
     <tr>
       <td>Breed:</td>
-      <td><input type="text" name="dog_breed" value="<?php echo $dog_breed ?>" required="required" /></td>
+      <td><input type="text" name="dog_breed" value="<?php echo htmlspecialchars($dog_breed) ?>" required="required" />
+      </td>
     </tr>
     <tr>
       <td>Age:</td>
@@ -95,13 +139,15 @@ if (isset($_POST["update"])) {
       </td>
     </tr>
     <td>Place of Origin:</td>
-    <td><input type="text" name="dog_origin" value="<?php echo $dog_origin ?>" required="required" /></td>
+    <td><input type="text" name="dog_origin" value="<?php echo htmlspecialchars($dog_origin) ?>" required="required" />
+    </td>
     </tr>
     <tr>
       <td>Description:</td>
-      <td><textarea name="dog_description"><?php echo $dog_description ?></textarea></td>
+      <td><textarea name="dog_description"><?php echo htmlspecialchars($dog_description) ?></textarea></td>
     </tr>
     <tr>
       <td><input type="submit" name="update" Value="Update Doggo"></td>
     </tr>
   </table>
+</form>

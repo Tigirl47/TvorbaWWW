@@ -7,18 +7,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $connection = Connection();
 
   // Kontrola, jestli je username v databázi
-  $sql = sprintf(
-    "SELECT * FROM users WHERE username = '%s'",
-    $connection->real_escape_string($_POST["username"])
-  );
-
-  $result = $connection->query($sql);
+  $username = $connection->real_escape_string($_POST["username"]);
+  $sql = "SELECT * FROM users WHERE username = ?";
+  $stmt = $connection->prepare($sql);
+  $stmt->bind_param("s", $username);
+  $stmt->execute();
+  $result = $stmt->get_result();
   $user = $result->fetch_assoc();
 
   // Kontrola, jestli je heslo přiřazené k username
   if ($user) {
 
-    if (password_verify($_POST["password"], $user["password"])) {
+    $password = $_POST["password"];
+    if (password_verify($password, $user["password"])) {
 
       session_start();
       session_regenerate_id();

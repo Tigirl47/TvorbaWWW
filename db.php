@@ -23,52 +23,47 @@ function AddFun()
 
   // Kontrola polí, jestli jsou vyplněné
   if (empty($fullname) or empty($username) or empty($password) or empty($passwordRepeat)) {
-    //array_push($errors, "All fields are required");
-    echo "All Fields Are Required.";
+    echo "Please Fill in All the Fields.";
     return;
   }
   // Kontrola hesla, jestli je delší jak 6 znaků
   if (strlen($password) < 6) {
-    //array_push($errors, "Password must be at least 6 characters long");
     echo "Password Must Be at Least 6 Characters Long.";
     return;
   }
   // Kontrola správně napsaného druhého hesla
   if ($password !== $passwordRepeat) {
-    //array_push($errors, "Password does not match");
-    echo "Password Does Not Match.";
+    echo "Passwords Do Not Match.";
     return;
   }
-  //Kontrola username, jestli už náhodou není v databázi
-  if ($stmt = mysqli_prepare($connection, 'SELECT id, password FROM users WHERE username = ?')) {
-    mysqli_stmt_bind_param($stmt, 's', $_POST['username']);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_store_result($stmt);
 
-    if (mysqli_stmt_num_rows($stmt) > 0) {
-      echo "Username Already Exists. Try Again.";
-      return;
-    }
+  // Kontrola, zda uživatelské jméno již existuje v databázi
+  $sql = "SELECT id FROM users WHERE username = ?";
+  $stmt = $connection->prepare($sql);
+  $stmt->bind_param("s", $username);
+  $stmt->execute();
+  $result = $stmt->get_result();
+
+  if ($result->num_rows > 0) {
+    echo "Username Already Exists. Please Choose a Different Username.";
+    return;
   }
 
-  // Escapování inputů (proti sql injection)
-  $fullname = mysqli_real_escape_string($connection, $fullname);
-  $username = mysqli_real_escape_string($connection, $username);
-  $password = mysqli_real_escape_string($connection, $password);
+  // // Hashování hesla (Používáno zpočátku)
+  // $hashFormat = "$2y$10$";
+  // $salt = "D4uhLk3avQDCvb08GVtBay";
+  // $hashFormat_salt = $hashFormat . $salt;
+  // $passwordHash = crypt($password, $hashFormat_salt);
 
   // Hashování hesla
-  $hashFormat = "$2y$10$";
-  $salt = "D4uhLk3avQDCvb08GVtBay";
-  $hashFormat_salt = $hashFormat . $salt;
-  $passwordHash = crypt($password, $hashFormat_salt);
+  $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
   // Uložení dat do databáze
-  $query = "INSERT INTO users(fullname,username,password) VALUES(?,?,?)";
-  $stmt = mysqli_stmt_init($connection);
-  $prepareStmt = mysqli_stmt_prepare($stmt, $query);
-  if ($prepareStmt) {
-    mysqli_stmt_bind_param($stmt, "sss", $fullname, $username, $passwordHash);
-    mysqli_stmt_execute($stmt);
+  $sql = "INSERT INTO users (fullname, username, password) VALUES (?, ?, ?)";
+  $stmt = $connection->prepare($sql);
+  $stmt->bind_param("sss", $fullname, $username, $hashed_password);
+
+  if ($stmt->execute()) {
     header('Location: index.php?sid=signup-success');
   } else {
     die("Something Went Wrong (2)...");

@@ -3,14 +3,18 @@ session_start();
 
 $pageIdx = isset($_GET['sid']) ? $_GET['sid'] : 0;
 
+// Napojení se k databázi
 include "db.php";
 $connection = Connection();
 
-if (isset($_SESSION["user_id"])) {
+$user = null;
 
-  $sql = "SELECT * FROM users
-            WHERE id = {$_SESSION["user_id"]}";
-  $result = $connection->query($sql);
+if (isset($_SESSION["user_id"])) {
+  $sql = "SELECT * FROM users WHERE id = ?";
+  $stmt = $connection->prepare($sql);
+  $stmt->bind_param("i", $_SESSION["user_id"]);
+  $stmt->execute();
+  $result = $stmt->get_result();
   $user = $result->fetch_assoc();
 }
 ?>
@@ -22,7 +26,7 @@ if (isset($_SESSION["user_id"])) {
   <meta charset="UTF-8">
   <title>Doggos Association</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
@@ -34,11 +38,11 @@ if (isset($_SESSION["user_id"])) {
   </header>
 
   <nav>
-    <!-- Menu starts here -->
+    <!-- Menu -->
     <div class="topnav">
       <a href="index.php?sid=home">Home</a>
       <a href="index.php?sid=owners">List of Owners</a>
-      <!-- Menu for user starts here-->
+      <!-- Menu pro přihlášené -->
       <?php if (isset($user)): ?>
         <a href="index.php?sid=my-doggos">My Doggos</a>
         <a href="index.php?sid=logout">Log out</a>
@@ -48,14 +52,14 @@ if (isset($_SESSION["user_id"])) {
       <?php else: ?>
         <a href="index.php?sid=login">Log in</a> <a href="index.php?sid=signup">Sign up</a>
       <?php endif; ?>
-      <!-- Menu for user ends here -->
+      <!-- Konec menu pro přihlášené -->
     </div>
-    <!-- Menu ends here -->
+    <!-- Konec menu -->
   </nav>
 
   <main class="content">
-    <?php
 
+    <?php
     renderDifferentPage($pageIdx);
 
     function renderDifferentPage($id)

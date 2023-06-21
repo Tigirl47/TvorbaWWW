@@ -4,25 +4,27 @@
   <?php
   // Kontrola session pro přidání psa
   if (isset($_SESSION["add"])) {
-    echo $_SESSION["add"];
+    echo htmlspecialchars($_SESSION["add"]);
     unset($_SESSION["add"]);
   }
   // Kontrola session pro odstranění psa
   if (isset($_SESSION["delete"])) {
-    echo $_SESSION["delete"];
+    echo htmlspecialchars($_SESSION["delete"]);
     unset($_SESSION["delete"]);
   }
   // Kontrola session pro updatování psa
   if (isset($_SESSION["update"])) {
-    echo $_SESSION["update"];
+    echo htmlspecialchars($_SESSION["update"]);
     unset($_SESSION["update"]);
   }
+  // Kontrola session během odstraňování psa z databáze
   if (isset($_SESSION["delete_fail"])) {
-    echo $_SESSION["delete_fail"];
+    echo htmlspecialchars($_SESSION["delete_fail"]);
     unset($_SESSION["delete_fail"]);
   }
+  // Kontrola session během odstraňování psa z databáze
   if (isset($_SESSION["delete_fail2"])) {
-    echo $_SESSION["delete_fail2"];
+    echo htmlspecialchars($_SESSION["delete_fail2"]);
     unset($_SESSION["delete_fail2"]);
   }
   ?>
@@ -47,7 +49,7 @@
   $connection = Connection();
   // Zobrazení dat z databáze
   if (isset($_SESSION["user_id"])) {
-    $user_id = $_SESSION["user_id"];
+    $user_id = mysqli_real_escape_string($connection, $_SESSION["user_id"]);
     $query = "SELECT * FROM dogs WHERE dog_owner_id = '$user_id'";
     $result = mysqli_query($connection, $query);
 
@@ -56,11 +58,11 @@
       if ($count_rows > 0) {
 
         while ($row = mysqli_fetch_assoc($result)) {
-          $dog_name = $row["dog_name"];
-          $dog_breed = $row["dog_breed"];
-          $dog_age = $row["dog_age"];
-          $dog_origin = $row["dog_origin"];
-          $dog_description = $row["dog_description"];
+          $dog_name = htmlspecialchars($row["dog_name"]);
+          $dog_breed = htmlspecialchars($row["dog_breed"]);
+          $dog_age = htmlspecialchars($row["dog_age"]);
+          $dog_origin = htmlspecialchars($row["dog_origin"]);
+          $dog_description = htmlspecialchars($row["dog_description"]);
           $dog_id = $row["dog_id"];
 
           ?>
@@ -89,10 +91,10 @@
         }
       } else {
         ?>
-        <tr>
-          <td colspan="6">No Doggo Added Yet.</td>
-        </tr>
-        <?php
+      <tr>
+        <td colspan="6">No Doggo Added Yet.</td>
+      </tr>
+  <?php
       }
     }
   }

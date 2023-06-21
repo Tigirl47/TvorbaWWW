@@ -62,8 +62,13 @@ body {
 
 .topnav a.logged {
   float: right;
-  color: #f2f2f2;
+  color: white;
   background-color: transparent;
+}
+
+/* Stylování warningu pro nepovolené úpravy */
+.warning {
+  color: red;
 }
 
 /* Stylování obsahu */
@@ -99,6 +104,15 @@ body {
 
 .owner-list-item a:hover {
   background-color: #a3cb38;
+}
+
+/* Výpis psů u List of Owners */
+.dog-info {
+  display: none;
+  background-color: #f2f2f2;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 /* Stylování odkazů na styl tlačítka */
@@ -209,7 +223,7 @@ body {
 
 .form-input input[type="text"],
 .form-input input[type="password"] {
-  width: 100%;
+  width: 20%;
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -237,7 +251,7 @@ body {
 
 .login-form-input input[type="text"],
 .login-form-input input[type="password"] {
-  width: 100%;
+  width: 20%;
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -268,13 +282,22 @@ body {
 }
 
 /* Media query pro zmenšování prvků na menších obrazovkách */
-@media (max-width: 768px) {
+@media only screen and (max-width: 1350px) {
+  .content {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+  .topnav {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+}
+@media only screen and (max-width: 1100px) {
   .header {
     padding: 15px;
   }
-
   .topnav {
-    padding: 15px;
+    padding: 5px;
   }
 
   .content {
@@ -287,5 +310,107 @@ body {
 
   .form-table {
     padding: 15px;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .header h1 {
+    font-size: 2.5rem;
+    padding-right: 20px;
+  }
+  .header-img {
+    width: 80%;
+    margin: 0 auto;
+  }
+  .login-form-input input[type="text"],
+  .login-form-input input[type="password"] {
+    width: 30%;
+  }
+  .form-input input[type="text"],
+  .form-input input[type="password"] {
+    width: 30%;
+  }
+}
+@media only screen and (max-width: 640px) {
+  .header h1 {
+    font-size: 2rem;
+  }
+  .header-img {
+    max-width: 130px;
+    width: 100%;
+    margin: 0;
+    margin-left: 20px;
+  }
+  .topnav a {
+    padding: 5px 10px;
+    font-size: 0.85rem;
+  }
+  .content {
+    font-size: 0.85rem;
+  }
+  .footer {
+    font-size: 0.85rem;
+  }
+}
+@media only screen and (max-width: 540px) {
+  .header-img {
+    max-width: 100px;
+    width: 100%;
+  }
+  .header h1 {
+    font-size: 1.5rem;
+  }
+  .topnav a {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    float: none;
+  }
+  .content {
+    font-size: 0.8rem;
+  }
+  .login-form-input input[type="text"],
+  .login-form-input input[type="password"] {
+    width: 40%;
+  }
+  .form-input input[type="text"],
+  .form-input input[type="password"] {
+    width: 40%;
+  }
+  .footer {
+    font-size: 0.9rem;
+  }
+}
+@media only screen and (max-width: 425px) {
+  .header-img {
+    max-width: 80px;
+    width: 100%;
+  }
+  .header h1 {
+    font-size: 1.2rem;
+  }
+  .topnav a {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+  .footer {
+    font-size: 0.8rem;
+  }
+}
+@media only screen and (max-width: 375px) {
+  .header-img {
+    max-width: 70px;
+    width: 100%;
+    margin-left: 10px;
+  }
+  .header h1 {
+    font-size: 1rem;
+    padding-right: 10px;
+  }
+  .login-form-input input[type="text"],
+  .login-form-input input[type="password"] {
+    width: 50%;
+  }
+  .form-input input[type="text"],
+  .form-input input[type="password"] {
+    width: 50%;
   }
 }

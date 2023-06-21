@@ -7,11 +7,11 @@ if (isset($_SESSION["user_id"])) {
 <?php
 // Zachycení údajů a vložení do proměnných
 if (isset($_POST["add_dog"])) {
-  $dog_name = $_POST["dog_name"];
-  $dog_breed = $_POST["dog_breed"];
-  $dog_age = $_POST["dog_age"];
-  $dog_origin = $_POST["dog_origin"];
-  $dog_description = $_POST["dog_description"];
+  $dog_name = mysqli_real_escape_string($connection, $_POST["dog_name"]);
+  $dog_breed = mysqli_real_escape_string($connection, $_POST["dog_breed"]);
+  $dog_age = mysqli_real_escape_string($connection, $_POST["dog_age"]);
+  $dog_origin = mysqli_real_escape_string($connection, $_POST["dog_origin"]);
+  $dog_description = mysqli_real_escape_string($connection, $_POST["dog_description"]);
 
   // Připojení k databázi
   $connection = Connection();
@@ -37,7 +37,7 @@ if (isset($_POST["add_dog"])) {
 <p>
   <?php
   if (isset($_SESSION["add_fail"])) {
-    echo $_SESSION["add_fail"];
+    echo htmlspecialchars($_SESSION["add_fail"]);
     unset($_SESSION["add_fail"]);
   }
   ?>
@@ -61,7 +61,7 @@ if (isset($_POST["add_dog"])) {
           <?php
           // Generování možností pro věk psa (například od 1 do 20 let)
           for ($age = 1; $age <= 50; $age++) {
-            echo "<option value=\"$age\">$age</option>";
+            echo "<option value=\"" . htmlspecialchars($age) . "\">$age</option>";
           }
           ?>
         </select>

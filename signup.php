@@ -1,12 +1,14 @@
 <h2>Sign up</h2>
 
-<?php
-// připojení do databáze
-$connection = Connection();
-if (isset($_POST["submit"])) {
-  AddFun();
-}
-?>
+<p>
+  <?php
+  // připojení do databáze
+  $connection = Connection();
+  if (isset($_POST["submit"])) {
+    AddFun();
+  }
+  ?>
+</p>
 
 <form action="" method="post">
   <div class="form-input">

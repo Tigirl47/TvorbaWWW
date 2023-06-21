@@ -1,3 +1,14 @@
+<p class="warning">
+    <?php
+    if (isset($_SESSION["unauthorized_entry"])) {
+        echo htmlspecialchars($_SESSION["unauthorized_entry"]);
+        unset($_SESSION["unauthorized_entry"]);
+    }
+    ?>
+</p>
+
+<h1>Welcome!</h1>
+<p>We Are an Association That Unites Doggos and Their Owners. Be a Part of Doggos Too!</p>
 <h2>List of Doggos</h2>
 
 <table class="table">
@@ -17,16 +28,17 @@
           LEFT JOIN users ON dogs.dog_owner_id = users.id";
     $result = mysqli_query($connection, $query);
 
+    // Zobrazení tabulky
     if ($result == true) {
         $count_rows = mysqli_num_rows($result);
         if ($count_rows > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-                $dog_name = $row["dog_name"];
-                $dog_breed = $row["dog_breed"];
-                $dog_age = $row["dog_age"];
-                $dog_origin = $row["dog_origin"];
-                $dog_description = $row["dog_description"];
-                $dog_owner = $row["owner_name"];
+                $dog_name = htmlspecialchars($row["dog_name"]);
+                $dog_breed = htmlspecialchars($row["dog_breed"]);
+                $dog_age = htmlspecialchars($row["dog_age"]);
+                $dog_origin = htmlspecialchars($row["dog_origin"]);
+                $dog_description = htmlspecialchars($row["dog_description"]);
+                $dog_owner = htmlspecialchars($row["owner_name"]);
                 ?>
                 <tr>
                     <td>
@@ -52,10 +64,10 @@
             }
         } else {
             ?>
-            <tr>
-                <td colspan="6">No Doggo Added Yet.</td>
-            </tr>
-            <?php
+        <tr>
+            <td colspan="6">No Doggo Added Yet.</td>
+        </tr>
+    <?php
         }
     }
     ?>
