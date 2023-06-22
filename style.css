@@ -90,6 +90,7 @@ body {
 
 .owner-list-item {
   margin-bottom: 5px;
+  position: relative;
 }
 
 .owner-list-item a {
@@ -108,11 +109,19 @@ body {
 
 /* Výpis psů u List of Owners */
 .dog-info {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
   display: none;
   background-color: #f2f2f2;
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
+}
+
+.owner-list-item:hover .dog-info {
+  display: block;
 }
 
 /* Stylování odkazů na styl tlačítka */

@@ -5,6 +5,10 @@ if (isset($_SESSION["user_id"])) {
 ?>
 
 <?php
+
+// Připojení k databázi
+$connection = Connection();
+
 // Zachycení údajů a vložení do proměnných
 if (isset($_POST["add_dog"])) {
   $dog_name = mysqli_real_escape_string($connection, $_POST["dog_name"]);
@@ -12,9 +16,6 @@ if (isset($_POST["add_dog"])) {
   $dog_age = mysqli_real_escape_string($connection, $_POST["dog_age"]);
   $dog_origin = mysqli_real_escape_string($connection, $_POST["dog_origin"]);
   $dog_description = mysqli_real_escape_string($connection, $_POST["dog_description"]);
-
-  // Připojení k databázi
-  $connection = Connection();
 
   // Přiřazení údajů do kolonek databáze
   $query = "INSERT INTO dogs (dog_name, dog_breed, dog_age, dog_origin, dog_description, dog_owner_id) 
