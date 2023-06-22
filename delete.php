@@ -56,4 +56,3 @@ if (isset($_GET["dog_id"])) {
 } else {
   header("Location: index.php?sid=my-doggos");
 }
-?>
