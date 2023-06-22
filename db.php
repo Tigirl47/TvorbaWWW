@@ -69,4 +69,3 @@ function AddFun()
     die("Something Went Wrong (2)...");
   }
 }
-?>

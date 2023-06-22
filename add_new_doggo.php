@@ -80,3 +80,4 @@ if (isset($_POST["add_dog"])) {
       <td><input type="submit" name="add_dog" Value="Add Doggo"></td>
     </tr>
   </table>
+  
